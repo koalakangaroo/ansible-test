@@ -1,0 +1,29 @@
+- name: Register hosts to RHSM
+  hosts: all
+  tasks:
+    - name: register hosts to RHSM
+      command: subscription-manager register --username=rhn-support-zzhou --password=<passwd>
+        
+- name: Attach to a pool
+  hosts: all
+  tasks:
+    - name: Attach to a pool
+      command: subscription-manager attach --pool=8a85f9833e1404a9013e3cddf99305e6
+#      redhat_subscription:
+#        state: present
+#        username: rhn-support-zzhou
+#        password: jaylin
+#        pool_ids: 8a85f9833e1404a9013e3cddf99305e6 # for 2.4+ 
+#
+- name: Disable all repos
+  hosts: all
+  tasks:
+    - name: Disable all repos
+      command: subscription-manager repos --disable='*'
+
+- name: Enable necessary repos
+  hosts: all
+  tasks:
+    - name: Enable rhel-7-server-rpms and rhel-7-server-extras-rpms repos
+      command: subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
+
